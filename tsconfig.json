@@ -36,11 +36,14 @@
       "@pages/*": [
         "./src/pages/*"
       ],
-      "@store": [
-        "./src/stores"
+      "@states": [
+        "./src/states"
       ],
-      "@store/*": [
-        "./src/stores/*"
+      "@states/*": [
+        "./src/states/*"
+      ],
+      "@hooks/*": [
+        "./src/hooks/*"
       ],
       "@layouts/*": [
         "./src/layouts/*"

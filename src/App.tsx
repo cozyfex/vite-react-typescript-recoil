@@ -1,6 +1,6 @@
 import BaseLayout from '@layouts/base-layout';
-import IndexPage from '@pages/index-page';
-import AnotherPage from '@pages/another-page';
+import IndexPage from '@pages/IndexPage';
+import AnotherPage from '@pages/AnotherPage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 function App() {

@@ -1,10 +1,10 @@
-import MenuComponent from '@components/menu-component';
-import { sampleStore } from '@store/sample-store';
+import MenuComponent from '@components/MenuComponent';
+import { sampleState } from '@states/sampleState';
 import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
 const BaseLayout = ({ children }: { children: React.ReactNode }) => {
-  const [sample, setSample] = useRecoilState(sampleStore);
+  const [sample, setSample] = useRecoilState(sampleState);
 
   useEffect(() => {
     if (sample.title) document.title = sample.title;
