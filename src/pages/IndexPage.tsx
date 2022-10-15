@@ -1,4 +1,5 @@
 import useUserQuery from '@hooks/queries/useUserQuery';
+import { ListInterface } from '@interfaces/listInterface';
 import { UserInterface } from '@interfaces/userInterface';
 import { countState, sampleState } from '@states/sampleState';
 import { useEffect, useState } from 'react';
@@ -20,9 +21,7 @@ const IndexPage = () => {
     isSuccess,
     remove,
     status,
-  } = useUserQuery();
-
-  console.log(data);
+  } = useUserQuery<ListInterface<UserInterface[]>>('/user/list');
 
   const increase = () => setCount(count + 1);
   const setTitle = () => setSample({ ...sample, title: String(document.querySelector('input')?.value) });

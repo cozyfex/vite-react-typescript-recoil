@@ -1,18 +1,15 @@
-import useAppQuery, { appQuery } from '@hooks/queries/useAppQuery';
+import { UseQueryResult } from 'react-query/types/react/types';
+
+import useAppQuery, { appQuery } from '@hooks/queries/factories/useAppQuery';
 import AppQueryInterface from '@interfaces/appQueryInterface';
-import { ListInterface } from '@interfaces/listInterface';
-import { UserInterface } from '@interfaces/userInterface';
 
-const userQuery = (query: AppQueryInterface = { queryKey: '' }) =>
-  appQuery('USER-LIST', '/user/list', query);
+const groupKey = 'USER';
 
-const userApi = ({ queryKey, options }: AppQueryInterface) =>
-  useAppQuery(userQuery({ isQuery: true, queryKey, options }));
+const userQuery = <TData>(url: string, query: AppQueryInterface = { queryKey: '' }) =>
+  appQuery<TData, unknown>(groupKey, url, query);
 
-const useUserQuery = (queryKey: string = 'temp-key') => {
-  const result = userApi({ queryKey, options: {} });
-  return { ...result, data: result.data as ListInterface<UserInterface[]> };
-};
+const useUserQuery = <TData>(url: string, queryKey: string = 'temp-key'): UseQueryResult<TData, unknown> =>
+  useAppQuery(userQuery<TData>(url, { isQuery: true, queryKey, options: {} }));
 
 export default useUserQuery;
 export { userQuery };

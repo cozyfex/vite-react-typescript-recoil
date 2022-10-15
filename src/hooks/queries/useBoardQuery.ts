@@ -1,18 +1,15 @@
-import useAppQuery, { appQuery } from '@hooks/queries/useAppQuery';
+import { UseQueryResult } from 'react-query/types/react/types';
+
+import useAppQuery, { appQuery } from '@hooks/queries/factories/useAppQuery';
 import AppQueryInterface from '@interfaces/appQueryInterface';
-import { BoardInterface } from '@interfaces/boardInterface';
-import { ListInterface } from '@interfaces/listInterface';
 
-const boardQuery = (query: AppQueryInterface = { queryKey: '' }) =>
-  appQuery('BOARD-LIST', '/board/list', query);
+const groupKey = 'BOARD';
 
-const boardApi = ({ queryKey, options }: AppQueryInterface) =>
-  useAppQuery(boardQuery({ isQuery: true, queryKey, options }));
+const boardQuery = <TData>(url: string, query: AppQueryInterface = { queryKey: '' }) =>
+  appQuery<TData, unknown>(groupKey, url, query);
 
-const useBoardQuery = (queryKey: string = 'temp-key') => {
-  const result = boardApi({ queryKey, options: {} });
-  return { ...result, data: result.data as ListInterface<BoardInterface[]> };
-};
+const useBoardQuery = <TData>(url: string, queryKey: string = 'temp-key'): UseQueryResult<TData, unknown> =>
+  useAppQuery(boardQuery<TData>(url, { isQuery: true, queryKey, options: {} }));
 
 export default useBoardQuery;
 export { boardQuery };

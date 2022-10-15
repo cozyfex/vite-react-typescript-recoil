@@ -1,19 +1,24 @@
-import useAppQueries, { typeConversion } from '@hooks/queries/useAppQueries';
-import { boardQuery } from '@hooks/queries/useBoardQuery';
-import { userQuery } from '@hooks/queries/useUserQuery';
+import useBoardQuery from '@hooks/queries/useBoardQuery';
+import useUserQuery, { userQuery } from '@hooks/queries/useUserQuery';
 import { BoardInterface } from '@interfaces/boardInterface';
 import { ListInterface } from '@interfaces/listInterface';
 import { UserInterface } from '@interfaces/userInterface';
 import { countState, sampleState } from '@states/sampleState';
+import { useQueries } from 'react-query';
 import { useRecoilState } from 'recoil';
 
 const AnotherPage = () => {
   const [sample, setSample] = useRecoilState(sampleState);
   const [count, setCount] = useRecoilState(countState);
 
-  const [userApi, boardApi] = useAppQueries([userQuery(), boardQuery()]);
-  const user = typeConversion<ListInterface<UserInterface[]>>(userApi);
-  const board = typeConversion<ListInterface<BoardInterface[]>>(boardApi);
+  const [user, board] = [
+    useUserQuery<ListInterface<UserInterface[]>>('/user/list'),
+    useBoardQuery<ListInterface<BoardInterface[]>>('/board/list'),
+  ];
+
+  useQueries<UserInterface[]>((user.isSuccess ? user.data.list : []).map((item, index) =>
+    userQuery(`/user/view/${index}`, { queryKey: item.userId }),
+  ));
 
   const decrease = () => setCount(count - 1);
   const setTitle = () => setSample({ ...sample, title: String(document.querySelector('input')?.value) });
