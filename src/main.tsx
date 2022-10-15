@@ -7,11 +7,13 @@ import { RecoilRoot } from 'recoil';
 import { queryClient } from '@hooks/queries/factories/queryClient';
 import App from './App';
 
+console.log(import.meta.env.VITE_DEBUG as boolean);
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={true} />
+        {import.meta.env.VITE_DEBUG === 'true' && <ReactQueryDevtools initialIsOpen={true} />}
         <App />
       </QueryClientProvider>
     </RecoilRoot>
