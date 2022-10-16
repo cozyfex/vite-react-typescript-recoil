@@ -1,12 +1,12 @@
+import { useRecoilState } from 'recoil';
+
 import useAppQueries from '@hooks/queries/factories/useAppQueries';
-import useBoardQuery, { useBoardHttp } from '@hooks/queries/useBoardQuery';
-import useUserQuery, { userQuery, useUserHttp } from '@hooks/queries/useUserQuery';
+import useBoardHttp from '@hooks/queries/useBoardQuery';
+import useUserHttp, { userQuery } from '@hooks/queries/useUserQuery';
 import { IBoard } from '@interfaces/IBoard';
 import { IList } from '@interfaces/IList';
 import { IUser } from '@interfaces/IUser';
 import { countState, sampleState } from '@states/sampleState';
-import { useQueries } from 'react-query';
-import { useRecoilState } from 'recoil';
 
 const AnotherPage = () => {
   const [sample, setSample] = useRecoilState(sampleState);

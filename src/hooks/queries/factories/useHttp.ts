@@ -2,8 +2,9 @@ import useAxios from '@hooks/useAxios';
 import IAppQuery from '@interfaces/IAppQuery';
 import { IHttp } from '@interfaces/IHttp';
 import { AxiosResponse } from 'axios';
-import { QueryFunctionContext, QueryKey, useQuery, UseQueryOptions } from 'react-query';
-import { UseQueryResult } from 'react-query/types/react/types';
+import { QueryFunctionContext, QueryKey, useMutation, useQuery, UseQueryOptions } from 'react-query';
+import { MutationFunction } from 'react-query/types/core/types';
+import { UseMutationOptions, UseQueryResult } from 'react-query/types/react/types';
 
 const appQuery = <TQueryFnData, TError = unknown, TData = TQueryFnData>(
   majorKey: string,
@@ -25,24 +26,19 @@ const appQuery = <TQueryFnData, TError = unknown, TData = TQueryFnData>(
   else return { ...data, options: options } as UseQueryOptions<TQueryFnData, TError, TData>;
 };
 
-// const useHttp = <TQueryFnData, TError = unknown, TData = TQueryFnData>(majorKey: string, options: UseQueryOptions<TQueryFnData, TError, TData>): IHttp => {
-//
-//   const { onError } = options;
-//
-//   return {
-//     query: appQuery,
-//     get: useQuery<TQueryFnData, TError, TData>({ ...options, useErrorBoundary: !onError }),
-//     post: () => null,
-//     put: () => null,
-//     delete: () => null,
-//   } as unknown as IHttp;
-// };
+const appMutation = <TData = unknown, TError = unknown, TVariables = unknown, TContext = unknown>
+(majorKey: string,
+ mutationFn: MutationFunction<TData, TVariables>,
+ mutationKey = 'temp-key',
+ options?: Omit<UseMutationOptions<TData, TError, TVariables, TContext>, 'mutationKey' | 'mutationFn'>) =>
+  useMutation([majorKey, mutationKey], mutationFn, { ...options });
 
 const useHttp = <TQueryFnData, TError = unknown, TData = TQueryFnData>(majorKey: string, options: UseQueryOptions<TQueryFnData, TError, TData>): IHttp => {
 
   const { onError } = options;
 
   return {
+    majorKey,
     query: (apiUrl: string, queryOptions: Pick<IAppQuery, 'isQuery' | 'queryKey' | 'options'>) =>
       appQuery(majorKey, apiUrl, queryOptions),
     get: (apiUrl: string, queryKey: string = 'temp-key') => {
@@ -60,9 +56,11 @@ const useHttp = <TQueryFnData, TError = unknown, TData = TQueryFnData>(majorKey:
           useErrorBoundary: !onError,
         });
     },
-    post: () => null,
-    put: () => null,
-    delete: () => null,
+    mutation: <TData = unknown, TError = unknown, TVariables = unknown, TContext = unknown>(
+      mutationKey = 'temp-key',
+      mutationFn: MutationFunction<TData, TVariables>,
+      options?: Omit<UseMutationOptions<TData, TError, TVariables, TContext>, 'mutationKey' | 'mutationFn'>) =>
+      appMutation<TData, TError, TVariables, TContext>(majorKey, mutationFn, mutationKey, { ...options }),
   } as unknown as IHttp;
 };
 

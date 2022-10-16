@@ -1,3 +1,6 @@
+import useBoardHttp from '@hooks/queries/useBoardQuery';
+import useAxios from '@hooks/useAxios';
+import { IBoard } from '@interfaces/IBoard';
 import React from 'react';
 import { useRecoilState } from 'recoil';
 
@@ -9,8 +12,24 @@ const BoardWritePage = () => {
   const [sample, setSample] = useRecoilState(sampleState);
   const [count, setCount] = useRecoilState(countState);
 
+  const api = useAxios();
+  const boardHttp = useBoardHttp();
+  const boardPostMutation = boardHttp.mutation('post', (data: IBoard) => api.post('/board/write', data));
+  const boardPutMutation = boardHttp.mutation('put', (data: IBoard) => api.put('/board/write', data));
+  const boardDeleteMutation = boardHttp.mutation('delete', (boardName: number) => api.delete(`/board/delete/${boardName}`));
+
   const handleSave = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+
+    const board: IBoard = {
+      name: 'aaa',
+      readCount: 0,
+      title: '',
+    };
+
+    boardPostMutation.mutate(board);
+    boardPutMutation.mutate(board);
+    boardDeleteMutation.mutate(20);
   };
 
   return (

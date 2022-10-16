@@ -14,5 +14,5 @@ const userQuery = <TQueryFnData, TError = unknown, TData = TQueryFnData>(url: st
 const useUserQuery = <TQueryFnData, TError = unknown, TData = TQueryFnData>(url: string, queryKey: string = 'temp-key'): UseQueryResult<TData, TError> =>
   useUserHttp().get(url, queryKey);
 
-export default useUserQuery;
-export { useUserHttp, userQuery };
+export default useUserHttp;
+export { useUserHttp, useUserQuery, userQuery };

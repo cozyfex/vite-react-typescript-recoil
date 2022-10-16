@@ -1,12 +1,15 @@
-import { appQuery } from '@hooks/queries/factories/useHttp';
-import IAppQuery from '@interfaces/IAppQuery';
 import { UseQueryOptions } from 'react-query';
-import { UseQueryResult } from 'react-query/types/react/types';
+import { MutationFunction, MutationKey } from 'react-query/types/core/types';
+import { UseMutationOptions, UseMutationResult, UseQueryResult } from 'react-query/types/react/types';
+
+import IAppQuery from '@interfaces/IAppQuery';
 
 export interface IHttp {
+  majorKey: string;
   query: IQuery;
   get: IGet;
-  post: Function;
+  mutation: IMutation;
+  post: IPost;
   put: Function;
   delete: Function;
 }
@@ -23,4 +26,15 @@ interface IQuery {
 
 interface IGet {
   <TQueryFnData, TError = unknown, TData = TQueryFnData>(url: string, queryKey: string): UseQueryResult<TData, TError>;
+}
+
+interface IPost {
+  <TData, TError, TVariables, TContext>(mutationFn: MutationFunction<TData, TVariables>,
+                                        mutationKey?: string,
+                                        options?: Omit<UseMutationOptions<TData, TError, TVariables, TContext>, 'mutationKey' | 'mutationFn'>,
+  ): UseMutationResult<TData, TError, TVariables, TContext>;
+}
+
+interface IMutation {
+  <TData = unknown, TError = unknown, TVariables = void, TContext = unknown>(mutationKey: MutationKey, mutationFn?: MutationFunction<TData, TVariables>, options?: Omit<UseMutationOptions<TData, TError, TVariables, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<TData, TError, TVariables, TContext>;
 }

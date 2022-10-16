@@ -8,11 +8,11 @@ const groupKey = 'BOARD';
 
 const useBoardHttp = () => useHttp(groupKey, {});
 
-const boardQuery = <TQueryFnData, TError = unknown, TData = TQueryFnData>(url: string, queryKey = 'temp-key'): UseQueryOptions<TData, TError, TData> =>
+const boardQuery = <TQueryFnData, TError = unknown, TData = TQueryFnData>(url: string, queryKey = 'temp-key'): UseQueryOptions<TQueryFnData, TError, TData> =>
   useBoardHttp().query<TQueryFnData, TError, TData>(url, { queryKey, isQuery: true });
 
 const useBoardQuery = <TQueryFnData, TError = unknown, TData = TQueryFnData>(url: string, queryKey: string = 'temp-key'): UseQueryResult<TData, TError> =>
   useBoardHttp().get(url, queryKey);
 
-export default useBoardQuery;
-export { boardQuery, useBoardHttp };
+export default useBoardHttp;
+export { boardQuery, useBoardQuery };
