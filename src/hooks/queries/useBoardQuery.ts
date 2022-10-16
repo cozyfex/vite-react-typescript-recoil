@@ -1,15 +1,18 @@
+import { UseQueryOptions } from 'react-query';
 import { UseQueryResult } from 'react-query/types/react/types';
 
-import useAppQuery, { appQuery } from '@hooks/queries/factories/useAppQuery';
-import IAppQuery from '@interfaces/IAppQuery';
+import useHttp from '@hooks/queries/factories/useHttp';
+
 
 const groupKey = 'BOARD';
 
-const boardQuery = <TQueryFnData, TError = unknown, TData = TQueryFnData>(url: string, query: IAppQuery = { queryKey: '' }) =>
-  appQuery<TQueryFnData, TError, TData>(groupKey, url, query);
+const useBoardHttp = () => useHttp(groupKey, {});
+
+const boardQuery = <TQueryFnData, TError = unknown, TData = TQueryFnData>(url: string, queryKey = 'temp-key'): UseQueryOptions<TData, TError, TData> =>
+  useBoardHttp().query<TQueryFnData, TError, TData>(url, { queryKey, isQuery: true });
 
 const useBoardQuery = <TQueryFnData, TError = unknown, TData = TQueryFnData>(url: string, queryKey: string = 'temp-key'): UseQueryResult<TData, TError> =>
-  useAppQuery(boardQuery<TQueryFnData, TError, TData>(url, { isQuery: true, queryKey, options: {} }));
+  useBoardHttp().get(url, queryKey);
 
 export default useBoardQuery;
-export { boardQuery };
+export { boardQuery, useBoardHttp };

@@ -1,14 +1,16 @@
-import useUserQuery from '@hooks/queries/useUserQuery';
+import useHttp from '@hooks/queries/factories/useHttp';
+import { useRecoilState } from 'recoil';
+
+import useUserQuery, { useUserHttp } from '@hooks/queries/useUserQuery';
 import { IList } from '@interfaces/IList';
 import { IUser } from '@interfaces/IUser';
 import { countState, sampleState } from '@states/sampleState';
-import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
 
 const IndexPage = () => {
   const [sample, setSample] = useRecoilState(sampleState);
   const [count, setCount] = useRecoilState(countState);
-  const [users, setUsers] = useState<IUser[]>([]);
+
+  const userQuery = useUserHttp();
 
   const {
     data,
@@ -21,7 +23,7 @@ const IndexPage = () => {
     isSuccess,
     remove,
     status,
-  } = useUserQuery<IList<IUser[]>>('/user/list');
+  } = userQuery.get<IList<IUser[]>>('/user/list', 'list');
 
   const increase = () => setCount(count + 1);
   const setTitle = () => setSample({ ...sample, title: String(document.querySelector('input')?.value) });

@@ -1,15 +1,18 @@
+import { UseQueryOptions } from 'react-query';
 import { UseQueryResult } from 'react-query/types/react/types';
 
-import useAppQuery, { appQuery } from '@hooks/queries/factories/useAppQuery';
-import IAppQuery from '@interfaces/IAppQuery';
+import useHttp from '@hooks/queries/factories/useHttp';
+
 
 const groupKey = 'USER';
 
-const userQuery = <TQueryFnData, TError = unknown, TData = TQueryFnData>(url: string, query: IAppQuery = { queryKey: '' }) =>
-  appQuery<TQueryFnData, TError, TData>(groupKey, url, query);
+const useUserHttp = () => useHttp(groupKey, {});
+
+const userQuery = <TQueryFnData, TError = unknown, TData = TQueryFnData>(url: string, queryKey = 'temp-key'): UseQueryOptions<TQueryFnData, TError, TData> =>
+  useUserHttp().query<TQueryFnData, TError, TData>(url, { queryKey, isQuery: true });
 
 const useUserQuery = <TQueryFnData, TError = unknown, TData = TQueryFnData>(url: string, queryKey: string = 'temp-key'): UseQueryResult<TData, TError> =>
-  useAppQuery(userQuery<TQueryFnData, TError, TData>(url, { isQuery: true, queryKey, options: {} }));
+  useUserHttp().get(url, queryKey);
 
 export default useUserQuery;
-export { userQuery };
+export { useUserHttp, userQuery };

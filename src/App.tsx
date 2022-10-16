@@ -1,4 +1,5 @@
 import BaseLayout from '@layouts/base-layout';
+import BoardWritePage from '@pages/BoardWritePage';
 import IndexPage from '@pages/IndexPage';
 import AnotherPage from '@pages/AnotherPage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -10,6 +11,7 @@ function App() {
         <Routes>
           <Route path="" element={<IndexPage />} />
           <Route path="another" element={<AnotherPage />} />
+          <Route path="board/write" element={<BoardWritePage />} />
         </Routes>
       </BaseLayout>
     </BrowserRouter>

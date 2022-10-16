@@ -1,5 +1,6 @@
-import useBoardQuery from '@hooks/queries/useBoardQuery';
-import useUserQuery, { userQuery } from '@hooks/queries/useUserQuery';
+import useAppQueries from '@hooks/queries/factories/useAppQueries';
+import useBoardQuery, { useBoardHttp } from '@hooks/queries/useBoardQuery';
+import useUserQuery, { userQuery, useUserHttp } from '@hooks/queries/useUserQuery';
 import { IBoard } from '@interfaces/IBoard';
 import { IList } from '@interfaces/IList';
 import { IUser } from '@interfaces/IUser';
@@ -11,13 +12,15 @@ const AnotherPage = () => {
   const [sample, setSample] = useRecoilState(sampleState);
   const [count, setCount] = useRecoilState(countState);
 
+  const [userHttp, boardHttp] = [useUserHttp(), useBoardHttp()];
+
   const [user, board] = [
-    useUserQuery<IList<IUser[]>>('/user/list'),
-    useBoardQuery<IList<IBoard[]>>('/board/list'),
+    userHttp.get<IList<IUser[]>>('/user/list', 'list'),
+    boardHttp.get<IList<IBoard[]>>('/board/list', 'list'),
   ];
 
-  useQueries<IUser[]>((user.isSuccess ? user.data.list : []).map((item, index) =>
-    userQuery(`/user/view/${index}`, { queryKey: item.userId }),
+  useAppQueries<IUser>((user.isSuccess ? user.data.list : []).map(item =>
+    userQuery(`/user/view/${item.userId}`, item.userId),
   ));
 
   const decrease = () => setCount(count - 1);
