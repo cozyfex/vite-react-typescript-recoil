@@ -1,4 +1,4 @@
-export interface SampleInterface {
+export interface ISample {
   count: number;
   title: string;
 }

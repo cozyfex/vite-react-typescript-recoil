@@ -1,25 +1,29 @@
 # Vite + React + TypeScript + Router + Recoil + ReactQuery
 
-## Coding conventions
+## Coding Conventions
 
-### Components file conventions
+### Components File Conventions
 
 - The file name is ```PascalCase```.
 
-### Non-components file conventions
+### Non-components File Conventions
 
 - The file name is ```camelCase```.
 
-### Attributes conventions
+### Attributes Conventions
 
 - The attribute is ```camelCase```.
 
-## Directory aliases
+## Directory Aliases
 
 ### ```tsconfig.json```
 
-- For TypeScript aliases validation.
+- For TypeScript Aliases Validation.
 
 ### ```vite.config.json```
 
-- For React compile validation.
+- For React Compile Validation.
+
+## API
+
+- [React Sample API](https://github.com/cozyfex/react-sample-api)

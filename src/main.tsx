@@ -7,8 +7,6 @@ import { RecoilRoot } from 'recoil';
 import { queryClient } from '@hooks/queries/factories/queryClient';
 import App from './App';
 
-console.log(import.meta.env.VITE_DEBUG as boolean);
-
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <RecoilRoot>

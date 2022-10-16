@@ -1,6 +1,6 @@
 import useUserQuery from '@hooks/queries/useUserQuery';
-import { ListInterface } from '@interfaces/listInterface';
-import { UserInterface } from '@interfaces/userInterface';
+import { IList } from '@interfaces/IList';
+import { IUser } from '@interfaces/IUser';
 import { countState, sampleState } from '@states/sampleState';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
@@ -8,7 +8,7 @@ import { useRecoilState } from 'recoil';
 const IndexPage = () => {
   const [sample, setSample] = useRecoilState(sampleState);
   const [count, setCount] = useRecoilState(countState);
-  const [users, setUsers] = useState<UserInterface[]>([]);
+  const [users, setUsers] = useState<IUser[]>([]);
 
   const {
     data,
@@ -21,7 +21,7 @@ const IndexPage = () => {
     isSuccess,
     remove,
     status,
-  } = useUserQuery<ListInterface<UserInterface[]>>('/user/list');
+  } = useUserQuery<IList<IUser[]>>('/user/list');
 
   const increase = () => setCount(count + 1);
   const setTitle = () => setSample({ ...sample, title: String(document.querySelector('input')?.value) });

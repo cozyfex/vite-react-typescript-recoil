@@ -1,21 +1,23 @@
 import useAxios from '@hooks/useAxios';
-import AppQueryInterface from '@interfaces/appQueryInterface';
+import IAppQuery from '@interfaces/IAppQuery';
+import { AxiosResponse } from 'axios';
 import { QueryFunctionContext, QueryKey, useQuery, UseQueryOptions } from 'react-query';
 import { UseQueryResult } from 'react-query/types/react/types';
 
-const appQuery = <TData, TError>(
+const appQuery = <TQueryFnData, TError = unknown, TData = TQueryFnData>(
   majorKey: string,
   apiUrl: string,
   {
     isQuery,
     queryKey,
     options,
-  }: Pick<AppQueryInterface, 'isQuery' | 'queryKey' | 'options'>): Exclude<UseQueryOptions<TData, TError, TData>, 'refetchInterval'> => {
+  }: Pick<IAppQuery, 'isQuery' | 'queryKey' | 'options'>): UseQueryOptions<TData, TError, TData> => {
 
   const api = useAxios();
-  const data: UseQueryOptions<TData, TError, TData> = {
+  const data: UseQueryOptions<TQueryFnData, TError, TData> = {
     queryKey: [majorKey, queryKey],
-    queryFn: <TData>(): Promise<TData> => api.get(apiUrl).then(res => res.data as TData),
+    queryFn: <TQueryFnData>() => api.get(apiUrl),
+    select: (res: TQueryFnData): TData => (res as unknown as AxiosResponse)?.data,
   };
 
   if (isQuery) return { ...data, options: options } as UseQueryOptions<TData, TError, TData>;
@@ -23,11 +25,11 @@ const appQuery = <TData, TError>(
 
 };
 
-const useAppQuery = <TData, TError>(options: UseQueryOptions<TData, TError, TData>): UseQueryResult<TData, TError> => {
+const useAppQuery = <TQueryFnData, TError = unknown, TData = TQueryFnData>(options: UseQueryOptions<TQueryFnData, TError, TData>): UseQueryResult<TData, TError> => {
 
   const { onError } = options;
 
-  return useQuery({ ...options, useErrorBoundary: !onError });
+  return useQuery<TQueryFnData, TError, TData>({ ...options, useErrorBoundary: !onError });
 };
 
 export default useAppQuery;
