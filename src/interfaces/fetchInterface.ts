@@ -1,4 +1,4 @@
-export interface IFetch {
+export interface FetchInterface {
   result: boolean;
   data: any;
 }

@@ -1,7 +1,7 @@
-import { ISample } from '@interfaces/ISample';
+import { SampleInterface } from '@interfaces/sampleInterface';
 import { atom, DefaultValue, selector } from 'recoil';
 
-const sampleState = atom<ISample>({
+const sampleState = atom<SampleInterface>({
   key: 'sampleState',
   default: {
     count: 0,

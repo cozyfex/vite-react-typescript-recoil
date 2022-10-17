@@ -1,10 +1,18 @@
-import { UseQueryOptions } from 'react-query';
+import { AxiosRequestHeaders } from 'axios';
+import { QueriesOptions, UseQueryOptions } from 'react-query';
 import { MutationFunction, MutationKey } from 'react-query/types/core/types';
 import { UseMutationOptions, UseMutationResult, UseQueryResult } from 'react-query/types/react/types';
 
-import IAppQuery from '@interfaces/IAppQuery';
+import AppQueryInterface from '@interfaces/appQueryInterface';
 
-export interface IHttp {
+
+export interface HttpConstructorInterface {
+  majorKey?: string;
+  headers?: AxiosRequestHeaders | undefined;
+  options?: QueriesOptions<any>;
+}
+
+export interface HttpInterface {
   majorKey: string;
   query: IQuery;
   get: IGet;
@@ -21,7 +29,7 @@ interface IQuery {
       isQuery,
       queryKey,
       options,
-    }: Pick<IAppQuery, 'isQuery' | 'queryKey' | 'options'>): UseQueryOptions<TQueryFnData, TError, TData>;
+    }: Pick<AppQueryInterface, 'isQuery' | 'queryKey' | 'options'>): UseQueryOptions<TQueryFnData, TError, TData>;
 }
 
 interface IGet {

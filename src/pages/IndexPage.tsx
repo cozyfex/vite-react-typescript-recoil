@@ -1,8 +1,8 @@
 import { useRecoilState } from 'recoil';
 
 import useUserHttp from '@hooks/queries/useUserQuery';
-import { IList } from '@interfaces/IList';
-import { IUser } from '@interfaces/IUser';
+import { ListInterface } from '@interfaces/listInterface';
+import { UserInterface } from '@interfaces/userInterface';
 import { countState, sampleState } from '@states/sampleState';
 
 const IndexPage = () => {
@@ -22,7 +22,7 @@ const IndexPage = () => {
     isSuccess,
     remove,
     status,
-  } = userHttp.get<IList<IUser[]>>('/user/list', 'list');
+  } = userHttp.get<ListInterface<UserInterface[]>>('/user/list', 'list');
 
   const increase = () => setCount(count + 1);
   const setTitle = () => setSample({ ...sample, title: String(document.querySelector('input')?.value) });

@@ -1,9 +1,9 @@
-import useBoardHttp from '@hooks/queries/useBoardQuery';
-import useAxios from '@hooks/useAxios';
-import { IBoard } from '@interfaces/IBoard';
 import React from 'react';
 import { useRecoilState } from 'recoil';
 
+import useBoardHttp from '@hooks/queries/useBoardQuery';
+import useAxios from '@hooks/useAxios';
+import { BoardInterface } from '@interfaces/boardInterface';
 import { countState, sampleState } from '@states/sampleState';
 import InputElement from '@components/elements/InputElement';
 
@@ -14,17 +14,20 @@ const BoardWritePage = () => {
 
   const api = useAxios();
   const boardHttp = useBoardHttp();
-  const boardPostMutation = boardHttp.mutation('post', (data: IBoard) => api.post('/board/write', data));
-  const boardPutMutation = boardHttp.mutation('put', (data: IBoard) => api.put('/board/write', data));
-  const boardDeleteMutation = boardHttp.mutation('delete', (boardName: number) => api.delete(`/board/delete/${boardName}`));
+  const boardPostMutation = boardHttp.mutation('board-post', (data: BoardInterface) => api.post('/board/write', data));
+  const boardPutMutation = boardHttp.mutation('board-put', (data: BoardInterface) => api.put('/board/write', data));
+  const boardDeleteMutation = boardHttp.mutation('board-delete', (boardName: number) => api.delete(`/board/delete/${boardName}`));
 
   const handleSave = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    const board: IBoard = {
-      name: 'aaa',
-      readCount: 0,
-      title: '',
+    const name = document.getElementById('name') as HTMLInputElement;
+    const title = document.getElementById('title') as HTMLInputElement;
+
+    const board: BoardInterface = {
+      name: name.value,
+      title: title.value,
+      readCount: Math.random() * 10,
     };
 
     boardPostMutation.mutate(board);

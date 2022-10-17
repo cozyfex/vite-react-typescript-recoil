@@ -1,6 +1,6 @@
 import { QueriesOptions, QueryFunction, QueryKey } from 'react-query';
 
-export default interface IAppQuery {
+export default interface AppQueryInterface {
   queryKey: QueryKey;
   url?: String;
   isQuery?: Boolean;

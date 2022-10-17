@@ -3,9 +3,9 @@ import { useRecoilState } from 'recoil';
 import useAppQueries from '@hooks/queries/factories/useAppQueries';
 import useBoardHttp from '@hooks/queries/useBoardQuery';
 import useUserHttp, { userQuery } from '@hooks/queries/useUserQuery';
-import { IBoard } from '@interfaces/IBoard';
-import { IList } from '@interfaces/IList';
-import { IUser } from '@interfaces/IUser';
+import { BoardInterface } from '@interfaces/boardInterface';
+import { ListInterface } from '@interfaces/listInterface';
+import { UserInterface } from '@interfaces/userInterface';
 import { countState, sampleState } from '@states/sampleState';
 
 const AnotherPage = () => {
@@ -15,11 +15,11 @@ const AnotherPage = () => {
   const [userHttp, boardHttp] = [useUserHttp(), useBoardHttp()];
 
   const [user, board] = [
-    userHttp.get<IList<IUser[]>>('/user/list', 'list'),
-    boardHttp.get<IList<IBoard[]>>('/board/list', 'list'),
+    userHttp.get<ListInterface<UserInterface[]>>('/user/list', 'list'),
+    boardHttp.get<ListInterface<BoardInterface[]>>('/board/list', 'list'),
   ];
 
-  useAppQueries<IUser>((user.isSuccess ? user.data.list : []).map(item =>
+  useAppQueries<UserInterface>((user.isSuccess ? user.data.list : []).map(item =>
     userQuery(`/user/view/${item.userId}`, item.userId),
   ));
 

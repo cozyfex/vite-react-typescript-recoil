@@ -1,10 +1,11 @@
-import useAxios from '@hooks/useAxios';
-import IAppQuery from '@interfaces/IAppQuery';
-import { IHttp } from '@interfaces/IHttp';
 import { AxiosResponse } from 'axios';
-import { QueryFunctionContext, QueryKey, useMutation, useQuery, UseQueryOptions } from 'react-query';
+import { useMutation, useQuery, UseQueryOptions } from 'react-query';
 import { MutationFunction } from 'react-query/types/core/types';
-import { UseMutationOptions, UseQueryResult } from 'react-query/types/react/types';
+import { UseMutationOptions } from 'react-query/types/react/types';
+
+import useAxios from '@hooks/useAxios';
+import AppQueryInterface from '@interfaces/appQueryInterface';
+import { HttpInterface } from '@interfaces/httpInterface';
 
 const appQuery = <TQueryFnData, TError = unknown, TData = TQueryFnData>(
   majorKey: string,
@@ -13,7 +14,7 @@ const appQuery = <TQueryFnData, TError = unknown, TData = TQueryFnData>(
     isQuery,
     queryKey = 'temp-key',
     options,
-  }: Pick<IAppQuery, 'isQuery' | 'queryKey' | 'options'>): UseQueryOptions<TQueryFnData, TError, TData> => {
+  }: Pick<AppQueryInterface, 'isQuery' | 'queryKey' | 'options'>): UseQueryOptions<TQueryFnData, TError, TData> => {
 
   const api = useAxios();
   const data: UseQueryOptions<TQueryFnData, TError, TData> = {
@@ -33,13 +34,13 @@ const appMutation = <TData = unknown, TError = unknown, TVariables = unknown, TC
  options?: Omit<UseMutationOptions<TData, TError, TVariables, TContext>, 'mutationKey' | 'mutationFn'>) =>
   useMutation([majorKey, mutationKey], mutationFn, { ...options });
 
-const useHttp = <TQueryFnData, TError = unknown, TData = TQueryFnData>(majorKey: string, options: UseQueryOptions<TQueryFnData, TError, TData>): IHttp => {
+const useHttp = <TQueryFnData, TError = unknown, TData = TQueryFnData>(majorKey: string, options: UseQueryOptions<TQueryFnData, TError, TData>): HttpInterface => {
 
   const { onError } = options;
 
   return {
     majorKey,
-    query: (apiUrl: string, queryOptions: Pick<IAppQuery, 'isQuery' | 'queryKey' | 'options'>) =>
+    query: (apiUrl: string, queryOptions: Pick<AppQueryInterface, 'isQuery' | 'queryKey' | 'options'>) =>
       appQuery(majorKey, apiUrl, queryOptions),
     get: (apiUrl: string, queryKey: string = 'temp-key') => {
       const queryOptions = appQuery<TQueryFnData, TError, TData>(majorKey, apiUrl, {
@@ -61,7 +62,7 @@ const useHttp = <TQueryFnData, TError = unknown, TData = TQueryFnData>(majorKey:
       mutationFn: MutationFunction<TData, TVariables>,
       options?: Omit<UseMutationOptions<TData, TError, TVariables, TContext>, 'mutationKey' | 'mutationFn'>) =>
       appMutation<TData, TError, TVariables, TContext>(majorKey, mutationFn, mutationKey, { ...options }),
-  } as unknown as IHttp;
+  } as unknown as HttpInterface;
 };
 
 export default useHttp;
