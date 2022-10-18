@@ -1,5 +1,4 @@
-import { useQueries, UseQueryOptions } from 'react-query';
-import { UseQueryResult } from 'react-query/types/react/types';
+import { useQueries } from 'react-query';
 import { QueriesOptions, QueriesResults } from 'react-query/types/react/useQueries';
 
 const useAppQueries = <TData>(queries: [...QueriesOptions<TData[]>]): QueriesResults<TData[]> => {
