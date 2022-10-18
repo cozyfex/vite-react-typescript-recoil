@@ -1,3 +1,4 @@
+import WebLayout from '@layouts/web/WebLayout';
 import { useRecoilState } from 'recoil';
 
 import useUserHttp from '@hooks/queries/useUserQuery';
@@ -28,43 +29,44 @@ const IndexPage = () => {
   const setTitle = () => setSample({ ...sample, title: String(document.querySelector('input')?.value) });
 
   return (
-    <div>
-      <div>Index Page</div>
-      <div>{count}</div>
+    <WebLayout>
       <div>
-        <button onClick={increase}>Increase</button>
-      </div>
-      <div>{sample.title}</div>
-      <div>
-        <input type="text" />
-        <button onClick={setTitle}>Change title</button>
-      </div>
+        <div>Index Page</div>
+        <div>{count}</div>
+        <div>
+          <button onClick={increase}>Increase</button>
+        </div>
+        <div>{sample.title}</div>
+        <div>
+          <input type="text" />
+          <button onClick={setTitle}>Change title</button>
+        </div>
 
-      {isLoading ? <div>Loading...</div> :
-        isSuccess ?
-          <div>
-            <table>
-              <thead>
-              <tr>
-                <th>No</th>
-                <th>ID</th>
-                <th>name</th>
-              </tr>
-              </thead>
-              <tbody>
-              {data.list.map((item, index) =>
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{item.userId}</td>
-                  <td>{item.name}</td>
-                </tr>,
-              )}
-              </tbody>
-            </table>
-          </div> : null
-      }
-
-    </div>
+        {isLoading ? <div>Loading...</div> :
+          isSuccess ?
+            <div>
+              <table>
+                <thead>
+                <tr>
+                  <th>No</th>
+                  <th>ID</th>
+                  <th>name</th>
+                </tr>
+                </thead>
+                <tbody>
+                {data.list.map((item, index) =>
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{item.userId}</td>
+                    <td>{item.name}</td>
+                  </tr>,
+                )}
+                </tbody>
+              </table>
+            </div> : null
+        }
+      </div>
+    </WebLayout>
   );
 };
 

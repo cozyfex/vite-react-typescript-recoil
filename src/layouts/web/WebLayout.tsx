@@ -1,9 +1,11 @@
-import MenuComponent from '@components/MenuComponent';
 import { sampleState } from '@states/sampleState';
 import React, { useEffect } from 'react';
+
+import MenuComponent from '@components/MenuComponent';
+import BaseLayout from '@layouts/BaseLayout';
 import { useRecoilState } from 'recoil';
 
-const BaseLayout = ({ children }: { children: React.ReactNode }) => {
+const WebLayout = ({ children }: { children: React.ReactNode }) => {
   const [sample, setSample] = useRecoilState(sampleState);
 
   useEffect(() => {
@@ -11,11 +13,11 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
   }, [sample.title]);
 
   return (
-    <div className="content">
+    <BaseLayout>
       <MenuComponent />
       {children}
-    </div>
+    </BaseLayout>
   );
 };
 
-export default BaseLayout;
+export default WebLayout;

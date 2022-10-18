@@ -7,10 +7,10 @@ const MenuComponent = () => {
         <Link to={'/'}>Index</Link>
       </li>
       <li>
-        <Link to={'another'}>Another</Link>
+        <Link to={'/another'}>Another</Link>
       </li>
       <li>
-        <Link to={'board/write'}>Board Write</Link>
+        <Link to={'/board/write'}>Board Write</Link>
       </li>
     </ul>
   );
