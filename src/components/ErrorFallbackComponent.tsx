@@ -1,6 +1,20 @@
-const ErrorFallbackComponent = ({ error, resetErrorBoundary }: { error: Error, resetErrorBoundary: Function }) => {
+import { MouseEventHandler } from 'react';
+
+const ErrorFallbackComponent = (
+  {
+    error,
+    resetErrorBoundary,
+  }: { error: Error, resetErrorBoundary: MouseEventHandler<HTMLButtonElement> }) => {
+
   return (
-    <div>{error.message}</div>
+    <div>
+      <div>{error.message}</div>
+      <div>
+        <button onClick={resetErrorBoundary}>
+          Reset
+        </button>
+      </div>
+    </div>
   );
 };
 

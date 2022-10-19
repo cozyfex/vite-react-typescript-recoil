@@ -1,4 +1,9 @@
+import BoardListComponent from '@components/BoardListComponent';
+import ErrorFallbackComponent from '@components/ErrorFallbackComponent';
+import UserListComponent from '@components/UserListComponent';
 import WebLayout from '@layouts/web/WebLayout';
+import { useState } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { useRecoilState } from 'recoil';
 
 import useAppQueries from '@hooks/queries/factories/useAppQueries';
@@ -13,19 +18,23 @@ const AnotherPage = () => {
   const [sample, setSample] = useRecoilState(sampleState);
   const [count, setCount] = useRecoilState(countState);
 
-  const [userHttp, boardHttp] = [useUserHttp(), useBoardHttp()];
-
-  const [user, board] = [
-    userHttp.get<ListInterface<UserInterface[]>>('/user/list', 'list'),
-    boardHttp.get<ListInterface<BoardInterface[]>>('/board/list', 'list'),
-  ];
-
-  useAppQueries<UserInterface>((user.isSuccess ? user.data.list : []).map(item =>
-    userQuery(`/user/view/${item.userId}`, item.userId),
-  ));
+  // useAppQueries<UserInterface>((user.isSuccess ? user.data.list : []).map(item =>
+  //   userQuery(`/user/view/${item.userId}`, item.userId),
+  // ));
 
   const decrease = () => setCount(count - 1);
   const setTitle = () => setSample({ ...sample, title: String(document.querySelector('input')?.value) });
+
+  const [userListError, setUserListError] = useState(true);
+  const [boardListError, setBoardListError] = useState(true);
+
+  const resetUserList = () => {
+    setUserListError(false);
+  };
+
+  const resetBoardList = () => {
+    setBoardListError(false);
+  };
 
   return (
     <WebLayout>
@@ -40,55 +49,21 @@ const AnotherPage = () => {
           <input type="text" onChange={setTitle} />
         </div>
 
-        {user.isLoading ? <div>Loading...</div> :
-          user.isSuccess ?
-            <div>
-              <table>
-                <thead>
-                <tr>
-                  <th>No</th>
-                  <th>ID</th>
-                  <th>name</th>
-                </tr>
-                </thead>
-                <tbody>
-                {user.data.list.map((item, index) =>
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{item.userId}</td>
-                    <td>{item.name}</td>
-                  </tr>,
-                )}
-                </tbody>
-              </table>
-            </div> : null
-        }
+        <ErrorBoundary
+          fallbackRender={ErrorFallbackComponent}
+          onReset={resetUserList}
+          resetKeys={[userListError]}
+        >
+          <UserListComponent />
+        </ErrorBoundary>
 
-        {board.isLoading ? <div>Loading...</div> :
-          board.isSuccess ?
-            <div>
-              <table>
-                <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Title</th>
-                  <th>Name</th>
-                  <th>Read Count</th>
-                </tr>
-                </thead>
-                <tbody>
-                {board.data.list.map((item, index) =>
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{item.title}</td>
-                    <td>{item.name}</td>
-                    <td>{item.readCount}</td>
-                  </tr>,
-                )}
-                </tbody>
-              </table>
-            </div> : null
-        }
+        <ErrorBoundary
+          fallbackRender={ErrorFallbackComponent}
+          onReset={resetBoardList}
+          resetKeys={[boardListError]}
+        >
+          <BoardListComponent />
+        </ErrorBoundary>
       </div>
     </WebLayout>
   );

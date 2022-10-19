@@ -1,32 +1,24 @@
-import WebLayout from '@layouts/web/WebLayout';
+import { useState } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { useRecoilState } from 'recoil';
 
-import useUserHttp from '@hooks/queries/useUserQuery';
-import { ListInterface } from '@interfaces/listInterface';
-import { UserInterface } from '@interfaces/userInterface';
 import { countState, sampleState } from '@states/sampleState';
+import ErrorFallbackComponent from '@components/ErrorFallbackComponent';
+import UserListComponent from '@components/UserListComponent';
+import WebLayout from '@layouts/web/WebLayout';
 
 const IndexPage = () => {
   const [sample, setSample] = useRecoilState(sampleState);
   const [count, setCount] = useRecoilState(countState);
+  const [userListError, setUserListError] = useState(true);
 
-  const userHttp = useUserHttp();
-
-  const {
-    data,
-    error,
-    isError,
-    isFetched,
-    isFetching,
-    isLoading,
-    isStale,
-    isSuccess,
-    remove,
-    status,
-  } = userHttp.get<ListInterface<UserInterface[]>>('/user/list', 'list');
 
   const increase = () => setCount(count + 1);
   const setTitle = () => setSample({ ...sample, title: String(document.querySelector('input')?.value) });
+
+  const resetUserList = () => {
+    setUserListError(false);
+  };
 
   return (
     <WebLayout>
@@ -42,29 +34,14 @@ const IndexPage = () => {
           <button onClick={setTitle}>Change title</button>
         </div>
 
-        {isLoading ? <div>Loading...</div> :
-          isSuccess ?
-            <div>
-              <table>
-                <thead>
-                <tr>
-                  <th>No</th>
-                  <th>ID</th>
-                  <th>name</th>
-                </tr>
-                </thead>
-                <tbody>
-                {data.list.map((item, index) =>
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{item.userId}</td>
-                    <td>{item.name}</td>
-                  </tr>,
-                )}
-                </tbody>
-              </table>
-            </div> : null
-        }
+        <ErrorBoundary
+          fallbackRender={ErrorFallbackComponent}
+          onReset={resetUserList}
+          resetKeys={[userListError]}
+        >
+          <UserListComponent />
+        </ErrorBoundary>
+
       </div>
     </WebLayout>
   );
