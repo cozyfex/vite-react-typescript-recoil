@@ -1,3 +1,4 @@
+import WebLayout from '@layouts/web/WebLayout';
 import React from 'react';
 import { useRecoilState } from 'recoil';
 
@@ -36,24 +37,26 @@ const BoardWritePage = () => {
   };
 
   return (
-    <div>
-      <div>Board Write Page</div>
-      <div>{count}</div>
-      <div>{sample.title}</div>
+    <WebLayout>
       <div>
+        <div>Board Write Page</div>
+        <div>{count}</div>
+        <div>{sample.title}</div>
         <div>
-          <label htmlFor="name">name</label>
-          <InputElement id="name" />
-        </div>
-        <div>
-          <label htmlFor="title">title</label>
-          <InputElement id="title" />
-        </div>
-        <div>
-          <button onClick={handleSave}>Save</button>
+          <div>
+            <label htmlFor="name">name</label>
+            <InputElement id="name" />
+          </div>
+          <div>
+            <label htmlFor="title">title</label>
+            <InputElement id="title" />
+          </div>
+          <div>
+            <button onClick={handleSave}>Save</button>
+          </div>
         </div>
       </div>
-    </div>
+    </WebLayout>
   );
 };
 

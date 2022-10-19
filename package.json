@@ -1,8 +1,25 @@
 {
-  "name": "vite-react-typescript-recoil-reactquery",
-  "private": true,
+  "name": "vite-react-typescript-recoil-query",
   "version": "0.1.0",
+  "author": "CozyFex <cozyfex@gmail.com>",
   "type": "module",
+  "keywords": [
+    "vite",
+    "react",
+    "typescript",
+    "react-typescript",
+    "recoil",
+    "react-query"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cozyfex/vite-react-typescript-recoil-query.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cozyfex/vite-react-typescript-recoil-query/issues"
+  },
+  "homepage": "https://github.com/cozyfex/vite-react-typescript-recoil-query",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
