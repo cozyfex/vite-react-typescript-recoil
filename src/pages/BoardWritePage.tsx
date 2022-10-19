@@ -1,4 +1,4 @@
-import BoardWriteComponent from '@components/elements/BoardWriteComponent';
+import BoardWriteComponent from '@components/BoardWriteComponent';
 import ErrorFallbackComponent from '@components/ErrorFallbackComponent';
 import WebLayout from '@layouts/web/WebLayout';
 import React, { useState } from 'react';

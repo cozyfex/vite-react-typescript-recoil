@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const SelectElement = (props) => {
+const SelectElement = (props: any) => {
 
-  const [selected, setSelected] = useState(props.value | '');
+  const [selected, setSelected] = useState(props.value as string | '');
 
   useEffect(() => {
     setSelected(props.value);
   }, [props.value]);
 
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelected(event.target.value);
     if (props.onChange) props.onChange(event);
   };

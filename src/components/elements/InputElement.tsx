@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const InputElement = (props) => {
+const InputElement = (props: any) => {
   const [value, setValue] = useState('');
 
   useEffect(() => {
@@ -8,7 +8,7 @@ const InputElement = (props) => {
   }, [props.value]);
 
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
     if (props.onChange) props.onChange(event);
   };
