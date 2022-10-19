@@ -3,7 +3,11 @@ import IndexPage from '@pages/IndexPage';
 import AnotherPage from '@pages/AnotherPage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-function App() {
+import '@assets/sass/sample.sass';
+import '@assets/sass/sample.scss';
+
+
+const App = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -13,6 +17,6 @@ function App() {
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

@@ -1,5 +1,5 @@
 import BoardListComponent from '@components/BoardListComponent';
-import ErrorFallbackComponent from '@components/ErrorFallbackComponent';
+import ErrorFallbackComponent from '@components/errors/ErrorFallbackComponent';
 import UserListComponent from '@components/UserListComponent';
 import WebLayout from '@layouts/web/WebLayout';
 import { useState } from 'react';
@@ -49,19 +49,11 @@ const AnotherPage = () => {
           <input type="text" onChange={setTitle} />
         </div>
 
-        <ErrorBoundary
-          fallbackRender={ErrorFallbackComponent}
-          onReset={resetUserList}
-          resetKeys={[userListError]}
-        >
+        <ErrorBoundary FallbackComponent={ErrorFallbackComponent}>
           <UserListComponent />
         </ErrorBoundary>
 
-        <ErrorBoundary
-          fallbackRender={ErrorFallbackComponent}
-          onReset={resetBoardList}
-          resetKeys={[boardListError]}
-        >
+        <ErrorBoundary FallbackComponent={ErrorFallbackComponent}>
           <BoardListComponent />
         </ErrorBoundary>
       </div>

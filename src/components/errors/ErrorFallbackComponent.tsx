@@ -1,18 +1,16 @@
-import { MouseEventHandler } from 'react';
+import { FallbackProps } from 'react-error-boundary';
 
 const ErrorFallbackComponent = (
   {
     error,
     resetErrorBoundary,
-  }: { error: Error, resetErrorBoundary: MouseEventHandler<HTMLButtonElement> }) => {
+  }: FallbackProps) => {
 
   return (
     <div>
       <div>{error.message}</div>
       <div>
-        <button onClick={resetErrorBoundary}>
-          Reset
-        </button>
+        <button onClick={resetErrorBoundary}>Try again</button>
       </div>
     </div>
   );

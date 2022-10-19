@@ -1,5 +1,5 @@
 import BoardWriteComponent from '@components/BoardWriteComponent';
-import ErrorFallbackComponent from '@components/ErrorFallbackComponent';
+import ErrorFallbackComponent from '@components/errors/ErrorFallbackComponent';
 import WebLayout from '@layouts/web/WebLayout';
 import React, { useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
