@@ -2,13 +2,13 @@ import InputElement from '@components/elements/InputElement';
 import useBoardHttp from '@hooks/queries/useBoardQuery';
 import useAxios from '@hooks/useAxios';
 import { BoardInterface } from '@interfaces/boardInterface';
-import { countState, sampleState } from '@states/sampleState';
+import { countSelectorState, sampleState } from '@states/sampleState';
 import React from 'react';
 import { useRecoilState } from 'recoil';
 
 const BoardWriteComponent = () => {
   const [sample, setSample] = useRecoilState(sampleState);
-  const [count, setCount] = useRecoilState(countState);
+  const [count, setCount] = useRecoilState(countSelectorState);
 
   const api = useAxios();
   const boardHttp = useBoardHttp();

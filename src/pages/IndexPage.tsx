@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useRecoilState } from 'recoil';
 
-import { countState, sampleState } from '@states/sampleState';
+import { countSelectorState, sampleState } from '@states/sampleState';
 import ErrorFallbackComponent from '@components/errors/ErrorFallbackComponent';
 import UserListComponent from '@components/UserListComponent';
 import WebLayout from '@layouts/web/WebLayout';
@@ -10,7 +10,7 @@ import WebLayout from '@layouts/web/WebLayout';
 
 const IndexPage = () => {
   const [sample, setSample] = useRecoilState(sampleState);
-  const [count, setCount] = useRecoilState(countState);
+  const [count, setCount] = useRecoilState(countSelectorState);
   const [userListError, setUserListError] = useState(true);
 
   const increase = () => setCount(count + 1);

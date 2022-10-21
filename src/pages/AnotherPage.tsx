@@ -12,11 +12,11 @@ import useUserHttp, { userQuery } from '@hooks/queries/useUserQuery';
 import { BoardInterface } from '@interfaces/boardInterface';
 import { ListInterface } from '@interfaces/listInterface';
 import { UserInterface } from '@interfaces/userInterface';
-import { countState, sampleState } from '@states/sampleState';
+import { countSelectorState, sampleState } from '@states/sampleState';
 
 const AnotherPage = () => {
   const [sample, setSample] = useRecoilState(sampleState);
-  const [count, setCount] = useRecoilState(countState);
+  const [count, setCount] = useRecoilState(countSelectorState);
 
   // useAppQueries<UserInterface>((user.isSuccess ? user.data.list : []).map(item =>
   //   userQuery(`/user/view/${item.userId}`, item.userId),

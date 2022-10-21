@@ -1,9 +1,11 @@
-import { sampleState } from '@states/sampleState';
-import React, { useEffect } from 'react';
-
-import MenuComponent from '@components/MenuComponent';
-import BaseLayout from '@layouts/BaseLayout';
+import React, { useEffect, Suspense } from 'react';
 import { useRecoilState } from 'recoil';
+import { InfinitySpin } from 'react-loader-spinner';
+
+import BaseLayout from '@layouts/BaseLayout';
+import { sampleState } from '@states/sampleState';
+
+const MenuComponent = React.lazy(() => import('@components/MenuComponent'));
 
 const WebLayout = ({ children }: { children: React.ReactNode }) => {
   const [sample, setSample] = useRecoilState(sampleState);
@@ -14,7 +16,9 @@ const WebLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <BaseLayout>
-      <MenuComponent />
+      <Suspense fallback={<InfinitySpin width="200" color="#4fa94d" />}>
+        <MenuComponent />
+      </Suspense>
       {children}
     </BaseLayout>
   );

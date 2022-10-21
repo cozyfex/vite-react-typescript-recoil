@@ -1,20 +1,22 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
-import { RecoilRoot } from 'recoil';
+import { BrowserRouter } from 'react-router-dom';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 
-import { queryClient } from '@hooks/queries/factories/queryClient';
 import App from './App';
 
-
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+const container = document?.getElementById('root');
+const AppWrapper = () => (
   <React.StrictMode>
-    <RecoilRoot>
-      <QueryClientProvider client={queryClient}>
-        {import.meta.env.VITE_DEBUG === 'true' && <ReactQueryDevtools initialIsOpen={true} />}
-        <App />
-      </QueryClientProvider>
-    </RecoilRoot>
-  </React.StrictMode>,
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>
 );
+
+
+if (import.meta.hot || !container?.innerText) {
+  const root = createRoot(container!);
+  root.render(<AppWrapper />);
+} else {
+  hydrateRoot(container!, <AppWrapper />);
+}

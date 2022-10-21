@@ -9,7 +9,7 @@ const sampleState = atom<SampleInterface>({
   },
 });
 
-const countState = selector({
+const countSelectorState = selector({
   key: 'countState',
   get: ({ get }) => ((get(sampleState).count)),
   set: ({ get, set }, count) => {
@@ -19,4 +19,4 @@ const countState = selector({
   },
 });
 
-export { sampleState, countState };
+export { sampleState, countSelectorState };
